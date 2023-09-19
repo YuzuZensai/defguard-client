@@ -23,7 +23,7 @@ pub struct LocationStats {
     location_id: i64,
     upload: i64,
     download: i64,
-    last_handshake: i64,
+    last_handshake: NaiveDateTime,
     collected_at: NaiveDateTime,
 }
 
@@ -112,7 +112,7 @@ impl LocationStats {
         location_id: i64,
         upload: i64,
         download: i64,
-        last_handshake: i64,
+        last_handshake: NaiveDateTime,
         collected_at: NaiveDateTime,
     ) -> Self {
         LocationStats {
@@ -140,5 +140,19 @@ impl LocationStats {
         .await?;
         self.id = Some(result.id);
         Ok(())
+    }
+    pub async fn fetch_all_by_location_id(
+        pool: &DbPool,
+        location_id: i64,
+    ) -> Result<Vec<Self>, Error> {
+        let stats = query_as!(
+            LocationStats,
+            "SELECT id, location_id, upload, download, last_handshake, collected_at \
+            FROM location_stats WHERE location_id = $1;",
+            location_id
+        )
+        .fetch_all(pool)
+        .await?;
+        Ok(stats)
     }
 }

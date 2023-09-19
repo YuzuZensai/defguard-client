@@ -1,6 +1,5 @@
 use crate::{
     database::{Instance, Location, WireguardKeys},
-    error::Error,
     utils::setup_interface,
     AppState,
 };
@@ -9,16 +8,26 @@ use tauri::State;
 use wireguard_rs::netlink::delete_interface;
 
 // Create new wireguard interface
-pub async fn connect(location_id: i64, app_state: State<'_, AppState>) -> Result<(), Error> {
-    if let Some(location) = Location::find_by_id(&app_state.get_pool(), location_id).await? {
-        setup_interface(location, &app_state.get_pool()).await?;
+#[tauri::command]
+pub async fn connect(location_id: i64, app_state: State<'_, AppState>) -> Result<(), String> {
+    if let Some(location) = Location::find_by_id(&app_state.get_pool(), location_id)
+        .await
+        .map_err(|err| err.to_string())?
+    {
+        setup_interface(location, &app_state.get_pool())
+            .await
+            .map_err(|err| err.to_string())?;
     }
     Ok(())
 }
 
-pub async fn disconnect(location_id: i64, app_state: State<'_, AppState>) -> Result<(), Error> {
-    if let Some(location) = Location::find_by_id(&app_state.get_pool(), location_id).await? {
-        delete_interface(&location.name)?;
+#[tauri::command]
+pub async fn disconnect(location_id: i64, app_state: State<'_, AppState>) -> Result<(), String> {
+    if let Some(location) = Location::find_by_id(&app_state.get_pool(), location_id)
+        .await
+        .map_err(|err| err.to_string())?
+    {
+        delete_interface(&location.name).map_err(|err| err.to_string())?;
     }
     Ok(())
 }
@@ -78,7 +87,10 @@ pub async fn save_device_config(
         response.instance_info.uuid,
         response.instance_info.url,
     );
-    instance.save(&mut *transaction).await.map_err(|e| e.to_string())?;
+    instance
+        .save(&mut *transaction)
+        .await
+        .map_err(|e| e.to_string())?;
     let mut keys = WireguardKeys::new(instance.id.unwrap(), private_key, response.device.pubkey);
     keys.save(&mut *transaction)
         .await

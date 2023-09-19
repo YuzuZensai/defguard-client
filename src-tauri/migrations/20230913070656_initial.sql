@@ -21,8 +21,8 @@ CREATE TABLE connection (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   location_id INTEGER NOT NULL,
   connected_from TEXT NOT NULL, -- Renamed from 'from' as it reserved
-  start INTEGER,
-  end INTEGER,
+  start DATETIME NOT NULL, -- Using DATETIME data type for start
+  end DATETIME,   -- Using DATETIME data type for end
   FOREIGN KEY (location_id) REFERENCES location(id)
 );
 
@@ -30,10 +30,10 @@ CREATE TABLE connection (
 CREATE TABLE  location_stats (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   location_id INTEGER NOT NULL,
-  upload INTEGER,
-  download INTEGER,
-  last_handshake INTEGER,
-  collected_at INTEGER,
+  upload INTEGER NOT NULL,
+  download INTEGER NOT NULL,
+  last_handshake DATETIME NOT NULL,
+  collected_at DATETIME NOT NULL,
   FOREIGN KEY (location_id) REFERENCES location(id)
 );
 
