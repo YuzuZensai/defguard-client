@@ -32,6 +32,9 @@ dependencies:
   '@types/byte-size':
     specifier: ^8.1.2
     version: 8.1.2
+  '@types/ua-parser-js':
+    specifier: ^0.7.39
+    version: 0.7.39
   byte-size:
     specifier: ^8.1.1
     version: 8.1.1
@@ -110,6 +113,9 @@ dependencies:
   tauri-plugin-log-api:
     specifier: github:tauri-apps/tauri-plugin-log
     version: github.com/tauri-apps/tauri-plugin-log/e5266f6719039c32b8f51ae86c9b726c2c9f3e42
+  ua-parser-js:
+    specifier: ^1.0.37
+    version: 1.0.37
   use-breakpoint:
     specifier: ^4.0.1
     version: 4.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -1740,6 +1746,10 @@ packages:
     resolution: {integrity: sha512-tjIRMxGztGfIbW2/d20MdJmAPZbabtdW051cKfU+nvZXUnKKifHbY2CyL/C0EGabUB8ahIRjanYzTqJUQR8TAQ==}
     dependencies:
       '@types/node': 20.8.7
+    dev: false
+
+  /@types/ua-parser-js@0.7.39:
+    resolution: {integrity: sha512-P/oDfpofrdtF5xw433SPALpdSchtJmY7nsJItf8h3KXqOslkbySh8zq4dSWXH2oTjRvJ5PczVEoCZPow6GicLg==}
     dev: false
 
   /@types/unist@2.0.9:
@@ -6785,6 +6795,10 @@ packages:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  /ua-parser-js@1.0.37:
+    resolution: {integrity: sha512-bhTyI94tZofjo+Dn8SN6Zv8nBDvyXTymAdM3LDI/0IboIUwTu1rEhW7v2TfiVsoYWgkQ4kOVqnI8APUFbIQIFQ==}
+    dev: false
 
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}

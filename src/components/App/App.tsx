@@ -27,6 +27,7 @@ import { EnrollmentPage } from '../../pages/enrollment/EnrollmentPage';
 import { SessionTimeoutPage } from '../../pages/sessionTimeout/SessionTimeoutPage';
 import { ToastManager } from '../../shared/defguard-ui/components/Layout/ToastManager/ToastManager';
 import { routes } from '../../shared/routes';
+import { detectBrowserEngine } from './detectBrowserEngine';
 
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -88,6 +89,10 @@ export const App = () => {
       debug(`Locale ${detectedLocale} loaded.`);
     });
     dayjs.locale(detectedLocale);
+  }, []);
+
+  useEffect(() => {
+    detectBrowserEngine();
   }, []);
 
   if (!wasLoaded) return null;
