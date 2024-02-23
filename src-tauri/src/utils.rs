@@ -1,5 +1,5 @@
 use std::{
-    net::{IpAddr, Ipv4Addr, SocketAddr, TcpListener},
+    net::{IpAddr, Ipv4Addr, SocketAddr, TcpListener, ToSocketAddrs},
     path::PathBuf,
     process::Command,
     str::FromStr,
@@ -50,7 +50,7 @@ pub async fn setup_interface(
         let mut peer = Peer::new(peer_key);
 
         debug!("Parsing location endpoint: {}", location.endpoint);
-        let endpoint: SocketAddr = location.endpoint.parse()?;
+        let endpoint: SocketAddr = location.endpoint.to_socket_addrs()?.next().expect("Unable to resolve domain");
         peer.endpoint = Some(endpoint);
         peer.persistent_keepalive_interval = Some(25);
 
@@ -278,7 +278,7 @@ pub async fn setup_interface_tunnel(
     let mut peer = Peer::new(peer_key);
 
     debug!("Parsing location endpoint: {}", tunnel.endpoint);
-    let endpoint: SocketAddr = tunnel.endpoint.parse()?;
+    let endpoint: SocketAddr = tunnel.endpoint.to_socket_addrs()?.next().expect("Unable to resolve domain");
     peer.endpoint = Some(endpoint);
     peer.persistent_keepalive_interval = Some(
         tunnel
